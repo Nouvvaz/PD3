@@ -1,5 +1,4 @@
 # Video explicativo
 
-**Enlace del video:** [Agregar aquí el enlace público]
+**Enlace del video:** https://drive.google.com/file/d/1YDckOJIbaFpcsMCwr3iEvA8AduJY2G9j/view?usp=sharing
 
-El video presenta la arquitectura MVC, el diagrama de clases, la estrategia propuesta para agregar operaciones y la evaluación del patrón Command.

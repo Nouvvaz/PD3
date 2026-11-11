@@ -75,4 +75,4 @@ La clase `Fraction` utiliza enteros grandes para conservar la precisión de los 
 1. [Requerimientos](docs/01-requerimientos.md)
 2. [Diagrama de clases y relaciones](docs/02-diagrama-de-clases.md)
 3. [Documentación técnica, pruebas y evaluación del patrón Command](docs/03-documentacion-tecnica.md)
-4. [Guion del video](video/guion.md)
+
