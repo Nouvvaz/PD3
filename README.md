@@ -4,7 +4,7 @@ Proyecto en Java desarrollado para la actividad de Programación Orientada a Obj
 
 ## Video explicativo
 
-**Enlace:** [Agregar aquí el enlace público del video]
+**Enlace:** https://drive.google.com/file/d/1YDckOJIbaFpcsMCwr3iEvA8AduJY2G9j/view?usp=sharing
 
 ## Estructura del proyecto
 
