@@ -1,0 +1,64 @@
+digraph G {
+  rankdir=BT; splines=polyline; nodesep=0.5; ranksep=0.9; compound=true;
+  fontname="Helvetica"; labelloc=t; fontsize=18;
+  label="Calculadora MVC - Diagrama de clases (version base + extension Plus)";
+  node [shape=record, fontname="Helvetica", fontsize=10, style=filled, fillcolor="#FFFFFF"];
+  edge [fontname="Helvetica", fontsize=9];
+
+  /* ---------- Librería Java ---------- */
+  JFrame [label="{JFrame\n(javax.swing)}", fillcolor="#EEEEEE"];
+  ActionListener [label="{«interface»\nActionListener|+ actionPerformed(e : ActionEvent) : void\l}", fillcolor="#EEEEEE"];
+
+  /* ---------- Versión base ---------- */
+  subgraph cluster_base { label="Version base (Multiply / Clear)"; style=dashed; color="#4472C4"; fontname="Helvetica";
+    Fraction [fillcolor="#FFF2CC", label="{Fraction\n«final, package»|~ num : BigInteger\l~ den : BigInteger\l- DECIMALS : int = 30\l|~ Fraction(n : BigInteger, d : BigInteger)\l~ parse(text : String) : Fraction «static»\l- parseDecimal(s : String) : Fraction «static»\l~ multiply(o : Fraction) : Fraction\l~ divide(o : Fraction) : Fraction\l~ isInteger() : boolean\l~ isTerminating() : boolean\l~ toDecimalString() : String\l+ toString() : String\l}"];
+    CalcModel [fillcolor="#DEEBF7", label="{CalcModel  (MODELO)|- INITIAL_VALUE : String = \"1\"\l- m_total : Fraction\l|+ CalcModel()\l+ reset() : void\l+ setValue(value : String) : void\l+ multiplyBy(operand : String) : void\l+ getValue() : String\l}"];
+    CalcView [fillcolor="#E2F0D9", label="{CalcView  (VISTA)|- INITIAL_VALUE : String = \"1\"\l- m_userInputTf : JTextField\l- m_totalTf : JTextField\l- m_multiplyBtn : JButton\l- m_clearBtn : JButton\l- m_model : CalcModel\l|~ CalcView(model : CalcModel)\l~ reset() : void\l~ getUserInput() : String\l~ setTotal(newTotal : String) : void\l~ showError(errMessage : String) : void\l~ addMultiplyListener(mal : ActionListener) : void\l~ addClearListener(cal : ActionListener) : void\l}"];
+    CalcController [fillcolor="#FCE4D6", label="{CalcController  (CONTROLADOR)|- m_model : CalcModel\l- m_view : CalcView\l|~ CalcController(model : CalcModel, view : CalcView)\l}"];
+    MultiplyListener [fillcolor="#FCE4D6", label="{MultiplyListener\n«clase interna»|+ actionPerformed(e : ActionEvent) : void\l}"];
+    ClearListener [fillcolor="#FCE4D6", label="{ClearListener\n«clase interna»|+ actionPerformed(e : ActionEvent) : void\l}"];
+    Main [fillcolor="#FFFFFF", label="{Main|+ main(args : String[]) : void «static»\l}"];
+  }
+
+  /* ---------- Extensión Plus ---------- */
+  subgraph cluster_plus { label="Extension Plus (agrega Add sin modificar la base)"; style=dashed; color="#C00000"; fontname="Helvetica";
+    CalcModelPlus [fillcolor="#DEEBF7", label="{CalcModelPlus  (MODELO)||+ addBy(operand : String) : void\l- currentTotal() : Fraction\l- add(a : Fraction, b : Fraction) : Fraction «static»\l}"];
+    CalcViewPlus [fillcolor="#E2F0D9", label="{CalcViewPlus  (VISTA)|- m_addBtn : JButton\l|~ CalcViewPlus(model : CalcModelPlus)\l~ addAddListener(al : ActionListener) : void\l}"];
+    CalcControllerPlus [fillcolor="#FCE4D6", label="{CalcControllerPlus  (CONTROLADOR)|- m_modelPlus : CalcModelPlus\l- m_viewPlus : CalcViewPlus\l|~ CalcControllerPlus(model : CalcModelPlus, view : CalcViewPlus)\l}"];
+    AddListener [fillcolor="#FCE4D6", label="{AddListener\n«clase interna»|+ actionPerformed(e : ActionEvent) : void\l}"];
+    MainPlus [fillcolor="#FFFFFF", label="{MainPlus|+ main(args : String[]) : void «static»\l}"];
+  }
+
+  /* Herencia (flecha triangular vacía) */
+  edge [arrowhead=empty, style=solid];
+  CalcView -> JFrame;
+  CalcViewPlus -> CalcView;
+  CalcModelPlus -> CalcModel;
+  CalcControllerPlus -> CalcController;
+
+  /* Realización de interfaz (punteada, triángulo vacío) */
+  edge [arrowhead=empty, style=dashed];
+  MultiplyListener -> ActionListener;
+  ClearListener -> ActionListener;
+  AddListener -> ActionListener;
+
+  /* Composición: el modelo posee la fracción */
+  edge [arrowhead=vee, arrowtail=diamond, dir=both, style=solid];
+  CalcModel -> Fraction [label="1  m_total"];
+
+  /* Asociaciones */
+  edge [arrowhead=vee, arrowtail=none, dir=forward, style=solid];
+  CalcView -> CalcModel [label="m_model"];
+  CalcController -> CalcModel [label="m_model"];
+  CalcController -> CalcView [label="m_view"];
+  CalcControllerPlus -> CalcModelPlus [label="m_modelPlus"];
+  CalcControllerPlus -> CalcViewPlus [label="m_viewPlus"];
+
+  /* Dependencias (creación) */
+  edge [arrowhead=vee, style=dashed];
+  CalcController -> MultiplyListener [label="crea"];
+  CalcController -> ClearListener [label="crea"];
+  CalcControllerPlus -> AddListener [label="crea"];
+  Main -> CalcController [label="crea"];
+  MainPlus -> CalcControllerPlus [label="crea"];
+}
