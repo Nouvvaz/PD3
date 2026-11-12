@@ -27,7 +27,6 @@ Proyecto en Java desarrollado para la actividad de Programación Orientada a Obj
 │   ├── 03-documentacion-tecnica.md
 │   └── img/                      # Diagrama de clases en PNG, SVG y DOT
 └── video/
-    └── guion.md
 ```
 
 ## Patrón MVC
